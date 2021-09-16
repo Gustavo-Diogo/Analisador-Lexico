@@ -8,13 +8,19 @@ c = ""#/n
 #/n
 print(a)
 
+
+
 if 9 > 9:      
-    print("rafa gaykkkkkkk")    
+    print("stoney gaykkkkkkk")    
 else: #: e depois \n
     print("ablublu")
 
 for a in range (5): ##\n
  a = a+1 ##space 
  print(a)
+
+ tst[5] = {1,2,3,4,5}
+
+ 
 
 

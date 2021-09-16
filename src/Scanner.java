@@ -16,7 +16,7 @@ public class Scanner {
 
             String txtConteudo;
             txtConteudo = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
-            System.out.println("------TESTE-------");
+            System.out.println("------LEITURA-------");
             System.out.println(txtConteudo);
             System.out.println("------------------");
 
@@ -35,11 +35,11 @@ public class Scanner {
         String term = "";
         estado = 0;
 
-        if (isEOF()) {
-            return null;
-        }
         while (true) {
             currentChar = nextChar();
+            if (isEOF()) {
+                return null;
+            }
             // term += currentChar;
             switch (estado) {
                 case 0:
@@ -163,7 +163,11 @@ public class Scanner {
                         estado = 1;
                     }
                 case 1:
-                    if (isChar(currentChar)) {
+
+                    if (isI(currentChar)) {
+                        estado = 10;
+                        term += currentChar;
+                    } else if (isChar(currentChar)) {
                         estado = 9;
                         term += currentChar;
                     } // else if(!isChar(currentChar)){
@@ -171,14 +175,23 @@ public class Scanner {
                       // }
                     break;
                 case 9:
-                    if (isChar(currentChar)) {
+                    if (isChar(currentChar) || isDigit(currentChar)) {
                         estado = 9;
                         term += currentChar;
-                    } else if (isAtribuicao(currentChar)) {
-                        estado = 2;
+                    }else if (isAtribuicao(currentChar)){
+                        term+= currentChar;
+                        estado = 14;
+                    }
+                    // } else if (isAtribuicao(currentChar)) {
+                    //     // estado = 2;
+                    //     estado = 14;
+                    //     term += currentChar;
+                    //     System.out.println("Texto do Token: =");
+                    //     System.out.println("Tipo do Token: 7\n");
+                    // } 
+                    else if (isF(currentChar)) {
+                        int substate = 0;
                         term += currentChar;
-                        System.out.println("Texto do Token: =");
-                        System.out.println("Tipo do Token: 7\n"); 
                     }
                     break;
                 case 2:
@@ -221,13 +234,62 @@ public class Scanner {
                         estado = 5;
                         term += currentChar;
                     }
+
                 case 5:
                     token = new Token();
                     token.setType(Token.TK_DECLARACAOREAL);
                     token.setText(term);
                     back();
                     return token;
-                
+                // ---DECLARAÇÃO INTEIRO E REAL E ATRIBUIÇÃO
+
+                case 10:
+                    if (isF(currentChar)) {
+                        estado = 11;
+                        term += currentChar;
+                    } else if (isChar(currentChar) || isDigit(currentChar)) {
+                        estado = 9;
+                        term += currentChar;
+                    }
+                    break;
+                case 11:
+                    if (isAbreParen(currentChar)) {
+                        estado = 12;
+                        term += currentChar;
+                    } else if (isChar(currentChar)) {
+                        estado = 9;
+                    }
+                    // else is numero
+                    break;
+                case 12:
+                    if (isExclamation(currentChar)) {
+                        estado = 1;
+                        term += currentChar;
+                    } else if (isF(currentChar)) {
+                        estado = 1;
+                        term += currentChar;
+                    }
+                    // else is numero
+                    break;
+                case 13:
+                    if (isExclamation(currentChar) || isChar(currentChar)) {
+                        estado = 1;
+                        term += currentChar;
+                    } else if (isDigit(currentChar)) {
+
+                    }
+                case 14:
+                if(isDigit(currentChar)){
+                        term += currentChar;
+                        estado = 7;
+                        System.out.println("Texto do Token: =");
+                        System.out.println("Tipo do Token: 7\n");
+
+                 }else if(isEqual(currentChar)){
+                     
+                }
+                break;
+
             }
 
         }
@@ -243,7 +305,15 @@ public class Scanner {
     }
 
     private boolean isOperator(char c) {
-        return c == '>' || c == '<' || c == '=' || c == '!';
+        return c == '>' || c == '<';
+    }
+
+    private boolean isExclamation(char c) {
+        return c == '!';
+    }
+
+    private boolean isEqual(char c) {
+        return c == '=';
     }
 
     private boolean isSpace(char c) {
@@ -276,6 +346,10 @@ public class Scanner {
 
     private boolean isT(char c) {
         return c == 't';
+    }
+
+    private boolean isF(char c) {
+        return c == 'f';
     }
 
     private boolean isPonto(char c) {
