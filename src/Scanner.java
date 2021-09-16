@@ -164,46 +164,58 @@ public class Scanner {
                     }
                 case 1:
                     if (isChar(currentChar)) {
-                        estado = 1;
+                        estado = 9;
                         term += currentChar;
-
-                    } else if (isSpace(currentChar)) {
-                        estado = 3;
+                    } // else if(!isChar(currentChar)){
+                      // throw new ScannerException("AQ"); SEMPRE CAI AQ POR ALGUM MOTIVO
+                      // }
+                    break;
+                case 9:
+                    if (isChar(currentChar)) {
+                        estado = 9;
                         term += currentChar;
                     } else if (isAtribuicao(currentChar)) {
                         estado = 2;
                         term += currentChar;
-                    }
-                    break;
-                case 3:
-                    if (isAtribuicao(currentChar)) {
-                        estado = 2;
-                        term += currentChar;
+                        System.out.println("Texto do Token: =");
+                        System.out.println("Tipo do Token: 7\n"); 
                     }
                     break;
                 case 2:
                     if (isDigit(currentChar)) {
-                        estado = 2;
+                        estado = 7;
                         term += currentChar;
-                    } else if (isSpace(currentChar)) {
-                        estado = 2;
+                    } // else{
+                      // throw new ScannerException("Unrecognized SYMBOL");
+                      // }
+                    break;
+                case 7:
+                    if (isDigit(currentChar)) {
+                        estado = 7;
                         term += currentChar;
                     } else if (isPonto(currentChar)) {
                         estado = 4;
                         term += currentChar;
+                    } else if (isSpace(currentChar)) {
+                        estado = 6;
+                        term += currentChar;
                     }
                     break;
-
                 case 6:
                     token = new Token();
                     token.setType(Token.TK_DECLARACAOINTEIRO);
                     token.setText(term);
                     back();
                     return token;
-
                 case 4:
                     if (isDigit(currentChar)) {
-                        estado = 4;
+                        estado = 8;
+                        term += currentChar;
+                    }
+                    break;
+                case 8:
+                    if (isDigit(currentChar)) {
+                        estado = 8;
                         term += currentChar;
                     } else if (isSpace(currentChar)) {
                         estado = 5;
@@ -215,7 +227,9 @@ public class Scanner {
                     token.setText(term);
                     back();
                     return token;
+                
             }
+
         }
 
     }

@@ -9,6 +9,7 @@ public class Token {
     public static final int TK_ASSIGN = 4;
     public static final int TK_DECLARACAOREAL = 5;
     public static final int TK_DECLARACAOINTEIRO = 6;
+    public static final int TK_ATRIBUICAO = 7;
 
     private int type;
     private String text;
