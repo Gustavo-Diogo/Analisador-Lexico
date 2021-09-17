@@ -1,19 +1,6 @@
-if(a==b):
+a = 9.
+a = 1
+printa("aaa")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print("roda")
 

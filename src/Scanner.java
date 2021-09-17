@@ -36,14 +36,14 @@ public class Scanner {
         estado = 0;
 
         while (true) {
-            currentChar = nextChar();
             if (isEOF()) {
                 return null;
             }
+            currentChar = nextChar();
             // term += currentChar;
             switch (estado) {
                 case 0:
-                
+
                     int subEstado;
                     if (isP(currentChar)) {
                         subEstado = 0;
@@ -59,6 +59,7 @@ public class Scanner {
                                         term += currentChar;
                                         currentChar = nextChar();
                                     } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                        term += currentChar;
                                         doWhile = false;
                                         estado = 1;
                                     }
@@ -70,6 +71,7 @@ public class Scanner {
                                         currentChar = nextChar();
 
                                     } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                        term += currentChar;
                                         doWhile = false;
                                         estado = 1;
                                     }
@@ -82,6 +84,7 @@ public class Scanner {
                                         currentChar = nextChar();
 
                                     } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                        term += currentChar;
                                         doWhile = false;
                                         estado = 1;
                                     }
@@ -93,6 +96,7 @@ public class Scanner {
                                         currentChar = nextChar();
 
                                     } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                        term += currentChar;
                                         doWhile = false;
                                         estado = 1;
                                     }
@@ -104,8 +108,26 @@ public class Scanner {
                                         currentChar = nextChar();
 
                                     } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                        term += currentChar;
                                         doWhile = false;
                                         estado = 1;
+                                    }
+
+                                    else {
+                                        term += " " + currentChar;
+                                        System.out.println(term);
+                                        term = "";
+                                        back();
+                                        estado = 0;
+
+                                        System.out.println("Após uma aspas, é necessário um fecha parenteses...\n");
+                                        doWhile = false;
+
+                                        do{
+                                            currentChar = nextChar();
+                                         } while(isNextLine(currentChar) == false);
+                                        
+
                                     }
                                     break;
 
@@ -116,12 +138,14 @@ public class Scanner {
                                         currentChar = nextChar();
 
                                     } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                        term += currentChar;
                                         doWhile = false;
                                         estado = 1;
                                     }
                                     break;
                                 case 6:
-                                    if (isDigit(currentChar) || isChar(currentChar)) {
+                                    if (isDigit(currentChar) || isChar(currentChar) || isSpace(currentChar)
+                                            || isOperator(currentChar) || isAtribuicao(currentChar)) {
                                         subEstado = 6;
                                         term += currentChar;
                                         currentChar = nextChar();
@@ -139,62 +163,90 @@ public class Scanner {
                                         term += currentChar;
                                         currentChar = nextChar();
                                     } else {
-                                        throw new Exception();
+                                        term += " " + currentChar;
+                                        System.out.println(term);
+                                        term = "";
+                                        back();
+                                        estado = 0;
+
+                                        System.out.println("Após uma aspas, é necessário um fecha parenteses...\n");
+                                        doWhile = false;
                                     }
                                     break;
                                 case 8:
 
-                                    if (isSpace(currentChar)) {
+                                    if (isSpace(currentChar) || isPontoVirgula(currentChar)) {
                                         term += currentChar;
                                         currentChar = nextChar();
                                         subEstado = 9;
 
                                     } else {
-                                        throw new Exception();
+                                        term += " " + currentChar;
+                                        System.out.println(term);
+                                        term = "";
+                                        back();
+                                        estado = 0;
+                                        doWhile = false;
+                                        System.out.println("Não pode haver nada após o fechamento do parenteses...\n");
+
                                     }
                                     break;
                                 case 9:
                                     token = new Token();
-                                    token.setType(Token.TK_IDENT);
+                                    token.setType(Token.TK_OUTPUT);
                                     token.setText(term);
                                     back();
                                     return token;
                             }
                         } while (doWhile == true);
+                    } else if (isI(currentChar)) {
+                        estado = 10;
+                        term += currentChar;
                     } else if (isChar(currentChar)) {
-                        estado = 1;
+                        estado = 9;
                         term += currentChar;
                     }
+
                     break;
                 case 1:
 
                     if (isI(currentChar)) {
                         estado = 10;
                         term += currentChar;
-                    } else if (isChar(currentChar)) {
+                    } else if (isChar(currentChar) || isDigit(currentChar)) {
                         estado = 9;
                         term += currentChar;
-                    } // else if(!isChar(currentChar)){
-                      // throw new ScannerException("AQ"); SEMPRE CAI AQ POR ALGUM MOTIVO
-                      // }
+                    } else {
+                        term += " " + currentChar;
+                        System.out.println(term);
+                        term = "";
+                        back();
+                        estado = 0;
+
+                        System.out.println("ERRO\n");
+                    }
+
+                    // else if(!isChar(currentChar)){
+                    // throw new ScannerException("AQ"); SEMPRE CAI AQ POR ALGUM MOTIVO
+                    // }
                     break;
                 case 9:
                     if (isChar(currentChar) || isDigit(currentChar)) {
                         estado = 9;
                         term += currentChar;
-                    // } else if (isAtribuicao(currentChar)) {
-                    //     estado = 14;
-                    //     term += currentChar;
-                    
+                        // } else if (isAtribuicao(currentChar)) {
+                        // estado = 14;
+                        // term += currentChar;
+
                     } else if (isFechaParen(currentChar)) {
                         estado = 18;
                         term += currentChar;
-                    }else if (isAtribuicao(currentChar)) {
-                    estado = 2;
-                    // estado = 14;
-                    term += currentChar;
-                    System.out.println("Texto do Token: =");
-                    System.out.println("Tipo do Token: 7\n");
+                    } else if (isAtribuicao(currentChar)) {
+                        estado = 2;
+                        // estado = 14;
+                        term += currentChar;
+                        System.out.println("Texto do Token: =");
+                        System.out.println("Tipo do Token: 7\n");
                     }
                     break;
                 case 2:
@@ -202,6 +254,8 @@ public class Scanner {
                         estado = 7;
                         term += currentChar;
                     } // else{
+                      // para e trava
+                      // quica e sensualiza
                       // throw new ScannerException("Unrecognized SYMBOL");
                       // }
                     break;
@@ -228,7 +282,14 @@ public class Scanner {
                         estado = 8;
                         term += currentChar;
                     } else {
-                        throw new ScannerException("Unrecognized SYMBOL");
+                        term += " " + currentChar;
+                        System.out.println(term);
+                        term = "";
+                        back();
+                        estado = 0;
+
+                        System.out.println("Unrecognized SYMBOL\n");
+
                     }
                     break;
                 case 8:
@@ -264,12 +325,12 @@ public class Scanner {
                     } else if (isChar(currentChar)) {
                         estado = 9;
                         term += currentChar;
-                        
+
                     }
                     // else is numero
                     break;
                 case 12:
-                // Acho q está errado esse if
+                    // Acho q está errado esse if
                     if (isExclamation(currentChar)) {
                         estado = 1;
                         term += currentChar;
@@ -298,7 +359,13 @@ public class Scanner {
                         term += currentChar;
                         estado = 15;
                     } else {
-                        throw new ScannerException("Unrecognized SYMBOL");
+                        term += " " + currentChar;
+                        System.out.println(term);
+                        term = "";
+                        back();
+                        estado = 0;
+
+                        System.out.println("Unrecognized SYMBOL\n");
                     }
                     break;
 
@@ -315,7 +382,7 @@ public class Scanner {
                     if (isChar(currentChar) || isDigit(currentChar)) {
                         estado = 16;
                         term += currentChar;
-                    }else if (isFechaParen(currentChar)){
+                    } else if (isFechaParen(currentChar)) {
                         estado = 18;
                         term += currentChar;
                     }
@@ -339,18 +406,22 @@ public class Scanner {
                     }
                     break;
                 case 20:
-                if (isChar(currentChar) || isDigit(currentChar)) {
-                    estado = 20;
-                    term += currentChar;
-                } else if (isAtribuicao(currentChar)) {
-                    estado = 14;
-                    term += currentChar;
-                
-                } else if (isFechaParen(currentChar)) {
-                    estado = 18;
-                    term += currentChar;
-                }
-                break;
+                    if (isChar(currentChar)) {
+                        estado = 20;
+                        term += currentChar;
+                    } else if (isAtribuicao(currentChar)) {
+                        estado = 14;
+                        term += currentChar;
+
+                    } else if (isFechaParen(currentChar)) {
+                        estado = 18;
+                        term += currentChar;
+                    } else if (isOperator(currentChar)) {
+
+                    } else if (isDigit(currentChar)) {
+
+                    }
+                    break;
                 case 19:
                     token = new Token();
                     token.setType(Token.TK_CONDICIONAL);
@@ -389,6 +460,10 @@ public class Scanner {
 
     private boolean isDoisPontos(char c) {
         return c == ':';
+    }
+
+    private boolean isPontoVirgula(char c) {
+        return c == ';';
     }
 
     private boolean isAtribuicao(char c) {
@@ -433,6 +508,10 @@ public class Scanner {
 
     private boolean isAspast(char c) {
         return c == '\"';
+    }
+
+    private boolean isNextLine(char c) {
+        return c == '\n';
     }
 
     private char nextChar() {
