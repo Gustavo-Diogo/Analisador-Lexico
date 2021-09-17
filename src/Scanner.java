@@ -43,125 +43,129 @@ public class Scanner {
             // term += currentChar;
             switch (estado) {
                 case 0:
+                
                     int subEstado;
                     if (isP(currentChar)) {
                         subEstado = 0;
                         term += currentChar;
                         currentChar = nextChar();
-                        switch (subEstado) {
-                            case 0:
-                                if (isR(currentChar)) {
-                                    term += currentChar;
-                                    currentChar = nextChar();
+                        boolean doWhile = true;
+                        do {
 
-                                    int subSubEstado = 0;
-                                    switch (subSubEstado) {
-                                        case 0:
-                                            if (isI(currentChar)) {
-                                                term += currentChar;
-                                                currentChar = nextChar();
-
-                                                int subSubSubEstado = 0;
-                                                switch (subSubSubEstado) {
-                                                    case 0:
-                                                        if (isN(currentChar)) {
-                                                            term += currentChar;
-                                                            currentChar = nextChar();
-
-                                                            int subSubSubSubEstado = 0;
-                                                            switch (subSubSubSubEstado) {
-                                                                case 0:
-                                                                    if (isT(currentChar)) {
-                                                                        term += currentChar;
-                                                                        currentChar = nextChar();
-
-                                                                        int subSubSubSubSubEstado = 0;
-                                                                        switch (subSubSubSubSubEstado) {
-                                                                            case 0:
-                                                                                if (isAbreParen(currentChar)) {
-                                                                                    int subState = 0;
-                                                                                    boolean text = true;
-                                                                                    term += currentChar;
-                                                                                    currentChar = nextChar();
-                                                                                    do {
-                                                                                        switch (subState) {
-                                                                                            case 0:
-                                                                                                if (isAspast(
-                                                                                                        currentChar)) {
-                                                                                                    term += currentChar;
-                                                                                                    currentChar = nextChar();
-                                                                                                    subState = 1;
-                                                                                                }
-                                                                                                break;
-
-                                                                                            case 1:
-                                                                                                if (!isAspast(
-                                                                                                        currentChar)) {
-                                                                                                    term += currentChar;
-                                                                                                    currentChar = nextChar();
-                                                                                                    subState = 1;
-                                                                                                } else if (isAspast(
-                                                                                                        currentChar)) {
-                                                                                                    term += currentChar;
-                                                                                                    currentChar = nextChar();
-                                                                                                    subState = 2;
-                                                                                                }
-                                                                                                break;
-                                                                                            case 2:
-                                                                                                if (isFechaParen(
-                                                                                                        currentChar)) {
-                                                                                                    term += currentChar;
-                                                                                                    currentChar = nextChar();
-                                                                                                    subState = 2;
-                                                                                                }
-                                                                                                if (isSpace(
-                                                                                                        currentChar)) {
-                                                                                                    token = new Token();
-                                                                                                    token.setType(
-                                                                                                            Token.TK_ASSIGN);
-                                                                                                    token.setText(term);
-                                                                                                    back();
-                                                                                                    return token;
-                                                                                                }
-                                                                                                break;
-                                                                                            default:
-                                                                                                break;
-                                                                                        }
-                                                                                    } while (text == true);
-                                                                                }
-
-                                                                                break;
-                                                                        }
-                                                                    }
-                                                                    break;
-                                                            }
-                                                        }
-                                                        break;
-                                                    default:
-                                                        break;
-                                                }
-                                            }
-                                            break;
-
-                                        default:
-                                            break;
+                            switch (subEstado) {
+                                case 0:
+                                    if (isR(currentChar)) {
+                                        subEstado = 1;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                        doWhile = false;
+                                        estado = 1;
                                     }
-                                }
+                                    break;
+                                case 1:
+                                    if (isI(currentChar)) {
+                                        subEstado = 2;
+                                        term += currentChar;
+                                        currentChar = nextChar();
 
-                                break;
+                                    } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                        doWhile = false;
+                                        estado = 1;
+                                    }
+                                    break;
 
-                            default:
-                                if (isChar(currentChar) || isDigit(currentChar)) {
-                                    term += currentChar;
-                                    estado = 0;
-                                } else {
+                                case 2:
+                                    if (isN(currentChar)) {
+                                        subEstado = 3;
+                                        term += currentChar;
+                                        currentChar = nextChar();
 
-                                }
-                                break;
-                        }
-                    } else {
+                                    } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                        doWhile = false;
+                                        estado = 1;
+                                    }
+                                    break;
+                                case 3:
+                                    if (isT(currentChar)) {
+                                        subEstado = 4;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+
+                                    } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                        doWhile = false;
+                                        estado = 1;
+                                    }
+                                    break;
+                                case 4:
+                                    if (isAbreParen(currentChar)) {
+                                        subEstado = 5;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+
+                                    } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                        doWhile = false;
+                                        estado = 1;
+                                    }
+                                    break;
+
+                                case 5:
+                                    if (isAspast(currentChar)) {
+                                        subEstado = 6;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+
+                                    } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                        doWhile = false;
+                                        estado = 1;
+                                    }
+                                    break;
+                                case 6:
+                                    if (isDigit(currentChar) || isChar(currentChar)) {
+                                        subEstado = 6;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    }
+                                    if (isAspast(currentChar)) {
+                                        subEstado = 7;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    }
+                                    break;
+
+                                case 7:
+                                    if (isFechaParen(currentChar)) {
+                                        subEstado = 8;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else {
+                                        throw new Exception();
+                                    }
+                                    break;
+                                case 8:
+
+                                    if (isSpace(currentChar)) {
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                        subEstado = 9;
+
+                                    } else {
+                                        throw new Exception();
+                                    }
+                                    break;
+                                case 9:
+                                    token = new Token();
+                                    token.setType(Token.TK_IDENT);
+                                    token.setText(term);
+                                    back();
+                                    return token;
+                            }
+                        } while (doWhile == true);
+                    } else if (isChar(currentChar)) {
                         estado = 1;
+                        term += currentChar;
                     }
+                    break;
                 case 1:
 
                     if (isI(currentChar)) {
@@ -178,20 +182,19 @@ public class Scanner {
                     if (isChar(currentChar) || isDigit(currentChar)) {
                         estado = 9;
                         term += currentChar;
-                    }else if (isAtribuicao(currentChar)){
-                        term+= currentChar;
-                        estado = 14;
-                    }
                     // } else if (isAtribuicao(currentChar)) {
-                    //     // estado = 2;
                     //     estado = 14;
                     //     term += currentChar;
-                    //     System.out.println("Texto do Token: =");
-                    //     System.out.println("Tipo do Token: 7\n");
-                    // } 
-                    else if (isF(currentChar)) {
-                        int substate = 0;
+                    
+                    } else if (isFechaParen(currentChar)) {
+                        estado = 18;
                         term += currentChar;
+                    }else if (isAtribuicao(currentChar)) {
+                    estado = 2;
+                    // estado = 14;
+                    term += currentChar;
+                    System.out.println("Texto do Token: =");
+                    System.out.println("Tipo do Token: 7\n");
                     }
                     break;
                 case 2:
@@ -224,6 +227,8 @@ public class Scanner {
                     if (isDigit(currentChar)) {
                         estado = 8;
                         term += currentChar;
+                    } else {
+                        throw new ScannerException("Unrecognized SYMBOL");
                     }
                     break;
                 case 8:
@@ -234,7 +239,7 @@ public class Scanner {
                         estado = 5;
                         term += currentChar;
                     }
-
+                    break;
                 case 5:
                     token = new Token();
                     token.setType(Token.TK_DECLARACAOREAL);
@@ -258,15 +263,18 @@ public class Scanner {
                         term += currentChar;
                     } else if (isChar(currentChar)) {
                         estado = 9;
+                        term += currentChar;
+                        
                     }
                     // else is numero
                     break;
                 case 12:
+                // Acho q está errado esse if
                     if (isExclamation(currentChar)) {
                         estado = 1;
                         term += currentChar;
-                    } else if (isF(currentChar)) {
-                        estado = 1;
+                    } else if (isChar(currentChar)) {
+                        estado = 20;
                         term += currentChar;
                     }
                     // else is numero
@@ -278,18 +286,77 @@ public class Scanner {
                     } else if (isDigit(currentChar)) {
 
                     }
+                    break;
                 case 14:
-                if(isDigit(currentChar)){
-                        term += currentChar;
+                    if (isDigit(currentChar)) {
                         estado = 7;
-                        System.out.println("Texto do Token: =");
-                        System.out.println("Tipo do Token: 7\n");
+                        term += currentChar;
+                        // System.out.println("Texto do Token: =");
+                        // System.out.println("Tipo do Token: 7\n");
 
-                 }else if(isEqual(currentChar)){
-                     
+                    } else if (isEqual(currentChar)) {
+                        term += currentChar;
+                        estado = 15;
+                    } else {
+                        throw new ScannerException("Unrecognized SYMBOL");
+                    }
+                    break;
+
+                case 15:
+                    if (isChar(currentChar)) {
+                        estado = 16;
+                        term += currentChar;
+                    } else if (isDigit(currentChar)) {
+                        estado = 17;
+                        term += currentChar;
+                    }
+                    break;
+                case 16:
+                    if (isChar(currentChar) || isDigit(currentChar)) {
+                        estado = 16;
+                        term += currentChar;
+                    }else if (isFechaParen(currentChar)){
+                        estado = 18;
+                        term += currentChar;
+                    }
+                    break;
+                case 17:
+                    if (isDigit(currentChar)) {
+                        estado = 17;
+                        term += currentChar;
+                    } else if (isPonto(currentChar)) {
+                        estado = 18;
+                        term += currentChar;
+                    }
+                    break;
+                case 18:
+                    if (isDigit(currentChar)) {
+                        estado = 18;
+                        term += currentChar;
+                    } else if (isDoisPontos(currentChar)) {
+                        estado = 19; // QUALQUER COISA MUDAR PARA CASO 0 DO GUSTAVO
+                        term += currentChar;
+                    }
+                    break;
+                case 20:
+                if (isChar(currentChar) || isDigit(currentChar)) {
+                    estado = 20;
+                    term += currentChar;
+                } else if (isAtribuicao(currentChar)) {
+                    estado = 14;
+                    term += currentChar;
+                
+                } else if (isFechaParen(currentChar)) {
+                    estado = 18;
+                    term += currentChar;
                 }
                 break;
-
+                case 19:
+                    token = new Token();
+                    token.setType(Token.TK_CONDICIONAL);
+                    token.setText(term);
+                    back();
+                    return token;
             }
 
         }
