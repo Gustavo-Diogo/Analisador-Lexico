@@ -34,13 +34,14 @@ public class Scanner {
         Token token;
         String term = "";
         estado = 0;
-
+        String a = "";
         while (true) {
             if (isEOF()) {
                 return null;
             }
             currentChar = nextChar();
             // term += currentChar;
+            String guarda = "";
             switch (estado) {
                 case 0:
 
@@ -123,10 +124,9 @@ public class Scanner {
                                         System.out.println("Após uma aspas, é necessário um fecha parenteses...\n");
                                         doWhile = false;
 
-                                        do{
+                                        do {
                                             currentChar = nextChar();
-                                         } while(isNextLine(currentChar) == false);
-                                        
+                                        } while (isNextLine(currentChar) == false);
 
                                     }
                                     break;
@@ -153,16 +153,15 @@ public class Scanner {
                                         System.out.println("Após uma aspas, é necessário um fecha parenteses...\n");
                                         doWhile = false;
 
-                                        do{
+                                        do {
                                             currentChar = nextChar();
-                                         } while(isNextLine(currentChar) == false);
-                                        
+                                        } while (isNextLine(currentChar) == false);
 
                                     }
                                     break;
                                 case 6:
                                     if (isDigit(currentChar) || isChar(currentChar) || isSpace(currentChar)
-                                            || isOperator(currentChar) || isAtribuicao(currentChar)) {
+                                            || isComparable(currentChar) || isAtribuicao(currentChar)) {
                                         subEstado = 6;
                                         term += currentChar;
                                         currentChar = nextChar();
@@ -172,10 +171,7 @@ public class Scanner {
                                         term += currentChar;
                                         currentChar = nextChar();
                                     }
-                                    
-                                        
 
-                                    
                                     break;
 
                                 case 7:
@@ -266,6 +262,7 @@ public class Scanner {
                         estado = 2;
                         // estado = 14;
                         term += currentChar;
+                        a = term;
                         System.out.println("Texto do Token: =");
                         System.out.println("Tipo do Token: 7\n");
                     }
@@ -284,14 +281,68 @@ public class Scanner {
                     if (isDigit(currentChar)) {
                         estado = 7;
                         term += currentChar;
+                        guarda += currentChar;
                     } else if (isPonto(currentChar)) {
                         estado = 4;
                         term += currentChar;
                     } else if (isSpace(currentChar)) {
                         estado = 6;
                         term += currentChar;
+                    } else if (isOperator(currentChar)) {
+                        estado = 21;
+                        guarda += currentChar;
+                        term += currentChar;
+                        String c = term.replace(a, "");
+                        term = c;
+                        System.out.println("Texto do Token: " + currentChar);
+                        System.out.println("Tipo do Token: 2\n");
+
+                        // String a = "a = ";
+
+                        // String b = "a = 9 + b + c";
+
+                        // String c = b.replace(a, "");
+
+                        // System.out.println(c);;
+                    }
+
+                    break;
+
+                case 21:
+                    if (isDigit(currentChar)) {
+                        estado = 22;
+                        term += currentChar;
+                        guarda += currentChar;
+                    } else if (isSpace(currentChar)) {
+                        estado = 23;
+                        term += currentChar;
+                        guarda += currentChar;
                     }
                     break;
+                case 22:
+                    if (isDigit(currentChar)) {
+                        estado = 22;
+                        term += currentChar;
+                        guarda += currentChar;
+                    } else if (isOperator(currentChar)) {
+                        estado = 21;
+                        term += currentChar;
+                        guarda += currentChar;
+                    } else if (isSpace(currentChar)) {
+                        estado = 23;
+                        term += currentChar;
+                        guarda += currentChar;
+                    }
+                    // Vai tirar foto com a nove segurando a minha glock
+                    
+                case 23:
+                    token = new Token();
+                    token.setType(Token.TK_ARITMETICO);
+                    token.setText(term);
+                    System.out.println("Texto do Token " + a + term);
+                    System.out.println("Tipo do Token: 6\n");
+                    back();
+                    return token;
                 case 6:
                     token = new Token();
                     token.setType(Token.TK_DECLARACAOINTEIRO);
@@ -351,7 +402,7 @@ public class Scanner {
                     // else is numero
                     break;
                 case 12:
-                    // Acho q está errado esse if
+
                     if (isExclamation(currentChar)) {
                         estado = 1;
                         term += currentChar;
@@ -379,6 +430,10 @@ public class Scanner {
                     } else if (isEqual(currentChar)) {
                         term += currentChar;
                         estado = 15;
+                    } else if (isChar(currentChar)) {
+                        term += currentChar;
+                        estado = 16;
+
                     } else {
                         term += " " + currentChar;
                         System.out.println(term);
@@ -424,6 +479,20 @@ public class Scanner {
                     } else if (isDoisPontos(currentChar)) {
                         estado = 19; // QUALQUER COISA MUDAR PARA CASO 0 DO GUSTAVO
                         term += currentChar;
+                    } else {
+
+                        term += " " + currentChar;
+                        System.out.println(term);
+                        term = "";
+                        back();
+                        estado = 0;
+
+                        System.out.println("Após um fecha parênteses de um IF é necessário um dois pontos...\n");
+
+                        do {
+                            currentChar = nextChar();
+                        } while (isNextLine(currentChar) == false);
+
                     }
                     break;
                 case 20:
@@ -437,8 +506,9 @@ public class Scanner {
                     } else if (isFechaParen(currentChar)) {
                         estado = 18;
                         term += currentChar;
-                    } else if (isOperator(currentChar)) {
-
+                    } else if (isComparable(currentChar)) {
+                        estado = 14;
+                        term += currentChar;
                     } else if (isDigit(currentChar)) {
 
                     }
@@ -463,8 +533,12 @@ public class Scanner {
         return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
     }
 
-    private boolean isOperator(char c) {
+    private boolean isComparable(char c) {
         return c == '>' || c == '<';
+    }
+
+    public boolean isOperator(char c) {
+        return c == '+' || c == '-' || c == '/' || c == '*' || c == '%';
     }
 
     private boolean isExclamation(char c) {

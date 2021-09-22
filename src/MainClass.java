@@ -4,7 +4,7 @@
 public class MainClass {
     public static void main(String[] args) {
         try {
-            Scanner sc = new Scanner("teste.isi");
+            Scanner sc = new Scanner("teste.txt");
             Token token = null;
 
             do {

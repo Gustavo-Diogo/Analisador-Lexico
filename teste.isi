@@ -1,9 +1,0 @@
-a = 9.
-a = 1
-print("aaa")
-if(a==a):print("roda") print("deu ruim")
-
-
-print(a)
-
-a = 1

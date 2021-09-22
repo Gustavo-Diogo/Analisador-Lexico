@@ -12,6 +12,7 @@ public class Token {
     public static final int TK_ATRIBUICAO = 7;
     public static final int TK_CONDICIONAL = 8;
     public static final int TK_OUTPUT = 9;
+    public static final int TK_ARITMETICO = 10;
 
     private int type;
     private String text;
