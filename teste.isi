@@ -1,6 +1,9 @@
 a = 9.
 a = 1
-printa("aaa")
+print("aaa")
+if(a==a):print("roda") print("deu ruim")
 
-print("roda")
 
+print(a)
+
+a = 1

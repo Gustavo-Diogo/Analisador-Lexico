@@ -142,6 +142,23 @@ public class Scanner {
                                         doWhile = false;
                                         estado = 1;
                                     }
+
+                                    else {
+                                        term += " " + currentChar;
+                                        System.out.println(term);
+                                        term = "";
+                                        back();
+                                        estado = 0;
+
+                                        System.out.println("Após uma aspas, é necessário um fecha parenteses...\n");
+                                        doWhile = false;
+
+                                        do{
+                                            currentChar = nextChar();
+                                         } while(isNextLine(currentChar) == false);
+                                        
+
+                                    }
                                     break;
                                 case 6:
                                     if (isDigit(currentChar) || isChar(currentChar) || isSpace(currentChar)
@@ -155,6 +172,10 @@ public class Scanner {
                                         term += currentChar;
                                         currentChar = nextChar();
                                     }
+                                    
+                                        
+
+                                    
                                     break;
 
                                 case 7:
@@ -223,7 +244,7 @@ public class Scanner {
                         back();
                         estado = 0;
 
-                        System.out.println("ERRO\n");
+                        System.out.println("Erro no PRINT, esperado print(\"algo\")\n");
                     }
 
                     // else if(!isChar(currentChar)){
