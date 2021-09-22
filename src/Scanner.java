@@ -433,7 +433,7 @@ public class Scanner {
                     if (isExclamation(currentChar)) {
                         estado = 1;
                         term += currentChar;
-                    } else if (isChar(currentChar)||isDigit(currentChar)) {
+                    } else if (isChar(currentChar)) {
                         estado = 20;
                         term += currentChar;
                     }
