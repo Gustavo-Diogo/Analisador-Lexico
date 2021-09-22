@@ -1,0 +1,17 @@
+Python
+
+Token Declaração Reais: (a..z + A..Z)^+ +(0..9)*= (0..9)^+ + '.'(0..9)^+
+
+Token Declaração Inteiros: (a..z + A..Z)^+ +(0..9)*=(0..9)^+
+
+Token Atribuição: '='
+
+Token Operador Aritmético: '+' + '-' + '/' + '*' + '%'
+
+Token Expressão Aritmética: (0..9)^+ operador (0..9)^+
+
+Token Condicional: if( + (a..z + A..Z)^+ + (0..9)* + '>' + '=' + '>' + '<':
+
+Token Escrita: print( + ("(0..9)* + (a..z)* + (A..Z)*") + (a..z)^+ + (A..Z)^+ )
+
+

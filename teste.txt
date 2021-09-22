@@ -1,0 +1,10 @@
+
+print(c) print("ablublu") print("sei la")
+print(123)
+
+if (a==a):
+a = 1+2
+
+minecraft = 4+9
+
+

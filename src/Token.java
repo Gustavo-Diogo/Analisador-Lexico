@@ -2,11 +2,11 @@
  * Token
  */
 public class Token {
-    public static final int TK_IDENT = 0;
-    public static final int TK_NUMERO = 1;
+    //public static final int TK_IDENT = 0;
+    //public static final int TK_NUMERO = 1;
     public static final int TK_OPERADOR = 2;
-    public static final int TK_PONTUACAO = 3;
-    public static final int TK_ASSIGN = 4;
+    //public static final int TK_PONTUACAO = 3;
+    //public static final int TK_ASSIGN = 4;
     public static final int TK_DECLARACAOREAL = 5;
     public static final int TK_DECLARACAOINTEIRO = 6;
     public static final int TK_ATRIBUICAO = 7;

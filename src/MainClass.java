@@ -8,7 +8,7 @@ public class MainClass {
             Token token = null;
 
             do {
-                token = sc.nextToken();
+                token = sc.le_token();
                 if (token != null) {
                     System.out.println("Texto do Token: "+ token.getText() +"\nTipo do Token: "+token.getType()+"\n");
                 }

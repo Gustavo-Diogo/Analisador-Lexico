@@ -28,7 +28,7 @@ public class Scanner {
         }
     }
 
-    public Token nextToken() throws Exception {
+    public Token le_token() throws Exception {
 
         char currentChar;
         Token token;
@@ -121,7 +121,7 @@ public class Scanner {
                                         back();
                                         estado = 0;
 
-                                        System.out.println("Após uma aspas, é necessário um fecha parenteses...\n");
+                                        System.out.println("UNRECOGNIZED SIMBOL\n");
                                         doWhile = false;
 
                                         do {
@@ -137,10 +137,10 @@ public class Scanner {
                                         term += currentChar;
                                         currentChar = nextChar();
 
-                                    } else if (isDigit(currentChar) || isChar(currentChar)) {
+                                    }  else if (isChar(currentChar)) {
                                         term += currentChar;
-                                        doWhile = false;
-                                        estado = 1;
+                                        currentChar = nextChar();
+                                        subEstado = 10;
                                     }
 
                                     else {
@@ -150,7 +150,7 @@ public class Scanner {
                                         back();
                                         estado = 0;
 
-                                        System.out.println("Após uma aspas, é necessário um fecha parenteses...\n");
+                                        System.out.println("Não é possível ler um "+currentChar+" no Print\n");
                                         doWhile = false;
 
                                         do {
@@ -209,6 +209,33 @@ public class Scanner {
                                     }
                                     break;
                                 case 9:
+                                    token = new Token();
+                                    token.setType(Token.TK_OUTPUT);
+                                    token.setText(term);
+                                    back();
+                                    return token;
+
+                                case 10:
+                                    if (isFechaParen(currentChar)) {
+                                        term += currentChar;
+                                        subEstado = 11;
+                                        currentChar = nextChar();
+                                    }
+                                    else if (isChar(currentChar) || isDigit(currentChar)) {
+                                        term += currentChar;
+                                        subEstado = 10;
+                                        currentChar = nextChar();
+                                    } else {
+                                        term += " " + currentChar;
+                                        System.out.println(term);
+                                        term = "";
+                                        back();
+                                        estado = 0;
+
+                                        System.out.println("Erro no PRINT, esperado print(\"algo\") ou print(a)\n");
+                                    }
+                                break;
+                                case 11:
                                     token = new Token();
                                     token.setType(Token.TK_OUTPUT);
                                     token.setText(term);
@@ -334,7 +361,7 @@ public class Scanner {
                         guarda += currentChar;
                     }
                     // Vai tirar foto com a nove segurando a minha glock
-                    
+
                 case 23:
                     token = new Token();
                     token.setType(Token.TK_ARITMETICO);
@@ -406,7 +433,7 @@ public class Scanner {
                     if (isExclamation(currentChar)) {
                         estado = 1;
                         term += currentChar;
-                    } else if (isChar(currentChar)) {
+                    } else if (isChar(currentChar)||isDigit(currentChar)) {
                         estado = 20;
                         term += currentChar;
                     }
