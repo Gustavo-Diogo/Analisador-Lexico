@@ -1,17 +1,21 @@
 Python
 
-Token Declaração Reais: (a..z + A..Z)^+ +(0..9)*= (0..9)^+ + '.'(0..9)^+
+Token Declaração Reais: (a..z + A..Z)^+ +(0..9)* + (a..z + A..Z + 0..9)* = (0..9)^+'.'(0..9)^+  Check
 
-Token Declaração Inteiros: (a..z + A..Z)^+ +(0..9)*=(0..9)^+
+Token Declaração Inteiros: (a..z + A..Z)^+ + (0..9)* + (a..z + A..Z + 0..9)* =(0..9)^+  Check
 
-Token Atribuição: '='
+Token Atribuição: '=' Check
 
-Token Operador Aritmético: '+' + '-' + '/' + '*' + '%'
+Token Operador Aritmético: '+' + '-' + '/' + '*' + '%' Check
 
-Token Expressão Aritmética: (0..9)^+ operador (0..9)^+
+Token Expressão Aritmética: (0..9)^+ operador (0..9)^+ Check
 
-Token Condicional: if( + (a..z + A..Z)^+ + (0..9)* + '>' + '=' + '>' + '<':
+Token Condicional: if( (a..z + A..Z)^+(0..9)*('>''=' + '>' + '=''=' + '<' + '<''=')(a..z + A..Z)^+(0..9)* ): NotCheck
 
-Token Escrita: print( + ("(0..9)* + (a..z)* + (A..Z)*") + (a..z)^+ + (A..Z)^+ )
+TA ACEITANDO if(a=b): !!!
+
+Token Escrita: print( + ((a..z + A..Z)^+(0..9)*) ')' + ("(0..9)* + (a..z)* + (A..Z)*" ')' Check
+
+
 
 

@@ -1,0 +1,34 @@
+ANALISADOR LEXICO
+
+Bhruno R. Leifheit
+Thiago C. de M. Araujo
+Rafael C. Ribeiro
+Gustavo D. da Silva
+
+Para executar o programa você deve seguir alguns passos:
+
+1. Estamos utilizando como linguagem para leitura Python
+2. Para poder escrever algum código, você deve primeiro abrir o arquivo de Instruções para saber o que é possivel ser lido
+3. Agora crie um txt (ou use algum que já está no projeto) e escreva o código em Python (evite usar espaços na hora de escrever por exemplo: a=9.2)
+4. Após escrever o código vá até a MainClass e na linha 7 substitua o nome do arquivo que será lido, por exemplo:
+
+    Scanner sc = new Scanner("arquivo2.txt");
+
+    Scanner sc = new Scanner("nomeDoSeuArquivo.txt");
+
+5. Agora é só dar um run java na MainClass e ver o analisador léxico funcionando
+
+6. O retorno vai ser primeiramente mostrando o que foi lido no arquivo e depois vai particionando em Tokens informando o respectivo número.
+
+
+Fique atento(a) ao número do TOKEN que é retornado:
+
+TOKEN 2: Operadores matemáticos
+TOKEN 5: Declaração de Reais
+TOKEN 6: Declaração de Inteiros
+TOKEN 7: Atribuição
+TOKEN 8: Condicional
+TOKEN 9: Output
+TOKEN 10: Expressão Aritmética
+
+

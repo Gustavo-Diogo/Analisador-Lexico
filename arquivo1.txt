@@ -1,0 +1,19 @@
+a = 10+30
+b = 50-20
+
+if(a==b):
+    print("Os numeros sao iguais")
+    print(b)
+    print(a)
+
+if(a<b):
+    print("O a e menor que b")
+    print(b)
+    print(a)
+
+if(a>b):
+    print("O b e menor que a")
+    print(b)
+    print(a)
+
+

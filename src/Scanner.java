@@ -315,6 +315,7 @@ public class Scanner {
                     } else if (isSpace(currentChar)) {
                         estado = 6;
                         term += currentChar;
+                        //guarda += currentChar;
                     } else if (isOperator(currentChar)) {
                         estado = 21;
                         guarda += currentChar;
@@ -360,7 +361,7 @@ public class Scanner {
                         term += currentChar;
                         guarda += currentChar;
                     }
-                    // Vai tirar foto com a nove segurando a minha glock
+                    
 
                 case 23:
                     token = new Token();

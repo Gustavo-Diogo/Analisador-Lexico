@@ -1,22 +1,17 @@
-a = 6.9
-b = 5
-c = ""
+valorCompra = 72.25
+valorProduto = 80.50
 
-print(a)
+if(valorCompra<=valorProduto):
+    print("Estamos perdendo dinheiro")
+    print(valorCompra)
+    print(valorProduto)
 
+valorCompra=75+80
+valorProduto=15*10
 
-
-if 9 > 9:      
-    print("stoney gaykkkkkkk")    
-else: #: e depois \n
-    print("ablublu")
-
-for a in range (5): ##\n
- a = a+1 ##space 
- print(a)
-
- tst[5] = {1,2,3,4,5}
-
- 
+if(valorCompra>=valorProduto):
+    print("Tudo certo")
+    print(valorCompra)
+    print(valorProduto)
 
 
