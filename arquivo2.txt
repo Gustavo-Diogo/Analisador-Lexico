@@ -15,4 +15,8 @@ if(valorCompra>=valorProduto):
     print(valorCompra)
     print(valorProduto)
 
+if(a=1):
+
+  
+
 

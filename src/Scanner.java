@@ -137,7 +137,7 @@ public class Scanner {
                                         term += currentChar;
                                         currentChar = nextChar();
 
-                                    }  else if (isChar(currentChar)) {
+                                    } else if (isChar(currentChar)) {
                                         term += currentChar;
                                         currentChar = nextChar();
                                         subEstado = 10;
@@ -150,7 +150,7 @@ public class Scanner {
                                         back();
                                         estado = 0;
 
-                                        System.out.println("Não é possível ler um "+currentChar+" no Print\n");
+                                        System.out.println("Não é possível ler um " + currentChar + " no Print\n");
                                         doWhile = false;
 
                                         do {
@@ -220,8 +220,7 @@ public class Scanner {
                                         term += currentChar;
                                         subEstado = 11;
                                         currentChar = nextChar();
-                                    }
-                                    else if (isChar(currentChar) || isDigit(currentChar)) {
+                                    } else if (isChar(currentChar) || isDigit(currentChar)) {
                                         term += currentChar;
                                         subEstado = 10;
                                         currentChar = nextChar();
@@ -234,7 +233,7 @@ public class Scanner {
 
                                         System.out.println("Erro no PRINT, esperado print(\"algo\") ou print(a)\n");
                                     }
-                                break;
+                                    break;
                                 case 11:
                                     token = new Token();
                                     token.setType(Token.TK_OUTPUT);
@@ -278,16 +277,12 @@ public class Scanner {
                     if (isChar(currentChar) || isDigit(currentChar)) {
                         estado = 9;
                         term += currentChar;
-                        // } else if (isAtribuicao(currentChar)) {
-                        // estado = 14;
-                        // term += currentChar;
 
                     } else if (isFechaParen(currentChar)) {
                         estado = 18;
                         term += currentChar;
                     } else if (isAtribuicao(currentChar)) {
                         estado = 2;
-                        // estado = 14;
                         term += currentChar;
                         a = term;
                         System.out.println("Texto do Token: =");
@@ -298,11 +293,7 @@ public class Scanner {
                     if (isDigit(currentChar)) {
                         estado = 7;
                         term += currentChar;
-                    } // else{
-                      // para e trava
-                      // quica e sensualiza
-                      // throw new ScannerException("Unrecognized SYMBOL");
-                      // }
+                    }
                     break;
                 case 7:
                     if (isDigit(currentChar)) {
@@ -315,7 +306,7 @@ public class Scanner {
                     } else if (isSpace(currentChar)) {
                         estado = 6;
                         term += currentChar;
-                        //guarda += currentChar;
+                        // guarda += currentChar;
                     } else if (isOperator(currentChar)) {
                         estado = 21;
                         guarda += currentChar;
@@ -361,7 +352,6 @@ public class Scanner {
                         term += currentChar;
                         guarda += currentChar;
                     }
-                    
 
                 case 23:
                     token = new Token();
@@ -427,7 +417,7 @@ public class Scanner {
                         term += currentChar;
 
                     }
-                    // else is numero
+                    
                     break;
                 case 12:
 
@@ -437,6 +427,8 @@ public class Scanner {
                     } else if (isChar(currentChar)) {
                         estado = 20;
                         term += currentChar;
+                    }else if (isDigit(currentChar)){
+
                     }
                     // else is numero
                     break;
@@ -458,9 +450,6 @@ public class Scanner {
                     } else if (isEqual(currentChar)) {
                         term += currentChar;
                         estado = 15;
-                    } else if (isChar(currentChar)) {
-                        term += currentChar;
-                        estado = 16;
 
                     } else {
                         term += " " + currentChar;
@@ -469,7 +458,12 @@ public class Scanner {
                         back();
                         estado = 0;
 
-                        System.out.println("Unrecognized SYMBOL\n");
+                        System.out.println("UNRECOGNIZED SIMBOL\n");
+
+                        do {
+                            currentChar = nextChar();
+                        } while (isNextLine(currentChar) == false);
+
                     }
                     break;
 
