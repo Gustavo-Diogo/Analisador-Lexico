@@ -463,7 +463,7 @@ public class Scanner {
                         back();
                         estado = 0;
 
-                        System.out.println("Erro no PRINT, esperado print(\"algo\")\n");
+                        System.out.println("UNRECOGNIZED SYMBOL\n");
                     }
 
                     // else if(!isChar(currentChar)){
