@@ -243,8 +243,205 @@ public class Scanner {
                             }
                         } while (doWhile == true);
                     } else if (isI(currentChar)) {
-                        estado = 10;
+                        // estado = 10;
                         term += currentChar;
+                        subEstado = 0;
+                        currentChar = nextChar();
+                        boolean doWhile = true;
+                        do {
+                            switch (subEstado) {
+                                case 0:
+                                    if (isF(currentChar)) {
+                                        subEstado = 1;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else {
+                                        term += currentChar;
+                                        doWhile = false;
+                                        estado = 1;
+                                    }
+
+                                    break;
+                                case 1:
+                                    if (isAbreParen(currentChar)) {
+                                        subEstado = 2;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else {
+                                        term += currentChar;
+                                        doWhile = false;
+                                        estado = 1;
+                                    }
+                                    break;
+                                case 2:
+                                    if (isChar(currentChar) || isDigit(currentChar)) {
+                                        subEstado = 3;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else {
+                                        term += " " + currentChar;
+                                        System.out.println(term);
+                                        term = "";
+                                        back();
+                                        estado = 0;
+                                        doWhile = false;
+                                        System.out.println("Esperado IF(a == b): ou IF(a < b):\n");
+
+                                        do {
+                                            currentChar = nextChar();
+                                        } while (isNextLine(currentChar) == false);
+                                    }
+                                    break;
+
+                                case 3:
+                                    if (isChar(currentChar) || isDigit(currentChar)) {
+                                        subEstado = 3;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else if (isEqual(currentChar)) {
+
+                                        subEstado = 4;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else if (isComparable(currentChar)) {
+                                        subEstado = 8;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else if (isExclamation(currentChar)) {
+                                        subEstado = 4;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else {
+                                        term += " " + currentChar;
+                                        System.out.println(term);
+                                        term = "";
+                                        back();
+                                        estado = 0;
+                                        doWhile = false;
+                                        System.out.println("Esperado IF(a == b):\n");
+
+                                        do {
+                                            currentChar = nextChar();
+                                        } while (isNextLine(currentChar) == false);
+                                    }
+                                    break;
+                                case 4:
+                                    if (isEqual(currentChar)) {
+                                        subEstado = 5;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else {
+                                        term += " " + currentChar;
+                                        System.out.println(term);
+                                        term = "";
+                                        back();
+                                        estado = 0;
+                                        doWhile = false;
+                                        System.out.println("Esperado IF(a == b):\n");
+
+                                        do {
+                                            currentChar = nextChar();
+                                        } while (isNextLine(currentChar) == false);
+                                    }
+                                    break;
+                                case 5:
+                                    if (isChar(currentChar) || isDigit(currentChar)) {
+                                        subEstado = 9;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else {
+                                        term += " " + currentChar;
+                                        System.out.println(term);
+                                        term = "";
+                                        back();
+                                        estado = 0;
+                                        doWhile = false;
+                                        System.out.println("Esperado IF(a == b):\n");
+
+                                        do {
+                                            currentChar = nextChar();
+                                        } while (isNextLine(currentChar) == false);
+                                    }
+
+                                    break;
+
+                                case 8:
+                                    if (isChar(currentChar) || isDigit(currentChar)) {
+                                        subEstado = 5;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } 
+                                     else if (isEqual(currentChar)) {
+                                        subEstado = 5;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else {
+                                        term += " " + currentChar;
+                                        System.out.println(term);
+                                        term = "";
+                                        back();
+                                        estado = 0;
+                                        doWhile = false;
+                                        System.out.println("Esperado IF(a == b):\n");
+
+                                        do {
+                                            currentChar = nextChar();
+                                        } while (isNextLine(currentChar) == false);
+                                    }
+                                    break;
+                                case 6:
+                                    if (isDoisPontos(currentChar)) {
+                                        subEstado = 7;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else {
+                                        term += " " + currentChar;
+                                        System.out.println(term);
+                                        term = "";
+                                        back();
+                                        estado = 0;
+                                        doWhile = false;
+                                        System.out.println("Esperado IF(a == b):\n");
+
+                                        do {
+                                            currentChar = nextChar();
+                                        } while (isNextLine(currentChar) == false);
+                                    }
+                                    break;
+                                case 7:
+                                    token = new Token();
+                                    token.setType(Token.TK_CONDICIONAL);
+                                    token.setText(term);
+                                    // System.out.println("Texto do Token " + a + term);
+                                    // System.out.println("Tipo do Token: 6\n");
+                                    back();
+                                    return token;
+
+                                case 9:
+                                    if (isFechaParen(currentChar)) {
+                                        subEstado = 6;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    } else {
+                                        term += " " + currentChar;
+                                        System.out.println(term);
+                                        term = "";
+                                        back();
+                                        estado = 0;
+                                        doWhile = false;
+                                        System.out.println("Esperado IF(a == b):\n");
+
+                                        do {
+                                            currentChar = nextChar();
+                                        } while (isNextLine(currentChar) == false);
+                                    }
+                                    break;
+                                default:
+
+                                    break;
+                            }
+                        } while (doWhile == true);
+
                     } else if (isChar(currentChar)) {
                         estado = 9;
                         term += currentChar;
@@ -417,7 +614,7 @@ public class Scanner {
                         term += currentChar;
 
                     }
-                    
+
                     break;
                 case 12:
 
@@ -427,10 +624,20 @@ public class Scanner {
                     } else if (isChar(currentChar)) {
                         estado = 20;
                         term += currentChar;
-                    }else if (isDigit(currentChar)){
+                    } else if (isDigit(currentChar)) {
+                        estado = 24;
+                        term += currentChar;
 
                     }
-                    // else is numero
+                    break;
+                case 24:
+                    if (isDigit(currentChar)) {
+                        estado = 24;
+                        term += currentChar;
+                    } else if (isComparable(currentChar)) {
+                        estado = 14;
+                        term += currentChar;
+                    }
                     break;
                 case 13:
                     if (isExclamation(currentChar) || isChar(currentChar)) {
@@ -447,10 +654,13 @@ public class Scanner {
                         // System.out.println("Texto do Token: =");
                         // System.out.println("Tipo do Token: 7\n");
 
+                        // } else if (isEqual(currentChar)) {
+                        // term += currentChar;
+                        // estado = 15;
+
                     } else if (isEqual(currentChar)) {
                         term += currentChar;
                         estado = 15;
-
                     } else {
                         term += " " + currentChar;
                         System.out.println(term);
@@ -466,7 +676,6 @@ public class Scanner {
 
                     }
                     break;
-
                 case 15:
                     if (isChar(currentChar)) {
                         estado = 16;
@@ -480,7 +689,9 @@ public class Scanner {
                     if (isChar(currentChar) || isDigit(currentChar)) {
                         estado = 16;
                         term += currentChar;
-                    } else if (isFechaParen(currentChar)) {
+                    }
+
+                    else if (isFechaParen(currentChar)) {
                         estado = 18;
                         term += currentChar;
                     }
@@ -541,6 +752,7 @@ public class Scanner {
                     token.setText(term);
                     back();
                     return token;
+
             }
 
         }
