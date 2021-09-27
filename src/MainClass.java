@@ -4,7 +4,7 @@
 public class MainClass {
     public static void main(String[] args) {
         try {
-            Scanner sc = new Scanner("arquivo2.txt");
+            Scanner sc = new Scanner("arquivo1.txt");
             Token token = null;
 
             do {

@@ -11,7 +11,7 @@ if(a<b):
     print(b)
     print(a)
 
-if(a<b):
+if(a>b):
     print("O b e menor que a")
     print(b)
     print(a)

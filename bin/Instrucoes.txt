@@ -10,7 +10,7 @@ Token Operador Aritmético: '+' + '-' + '/' + '*' + '%' Check
 
 Token Expressão Aritmética: (0..9)^+ operador (0..9)^+ Check
 
-Token Condicional: if( (a..z + A..Z)^+(0..9)*('>''=' + '>' + '=''=' + '<' + '<''=')(a..z + A..Z)^+(0..9)* ): NotCheck
+Token Condicional: if( (a..z + A..Z)^+(0..9)*('>''=' + '>' + '=''=' + '<' + '<''=' + '!''=')(a..z + A..Z)^+(0..9)* ): NotCheck
 
 Token Escrita: print( + ((a..z + A..Z)^+(0..9)*) ')' + ("(0..9)* + (a..z)* + (A..Z)*" ')' Check
 
