@@ -1,18 +1,18 @@
 Python
 
-Token Declaração Reais: (a..z + A..Z)^+ +(0..9)* + (a..z + A..Z + 0..9)* = (0..9)^+'.'(0..9)^+  Check
+Token Declaração Reais: (a+..+z + A+..+Z)^+(0+..+9)*(a+..+z + A+..+Z + 0+..+9)* =(0+..+9)^+'.'(0+..+9)^+  
 
-Token Declaração Inteiros: (a..z + A..Z)^+ + (0..9)* + (a..z + A..Z + 0..9)* =(0..9)^+  Check
+Token Declaração Inteiros: (a+..+z + A+..+Z)^+(0+..+9)*(a+..+z + A+..+Z + 0+..+9)* =(0+..+9)^+  
 
-Token Atribuição: '=' Check
+Token Atribuição: '=' 
 
-Token Operador Aritmético: '+' + '-' + '/' + '*' + '%' Check
+Token Operador Aritmético: '+' + '-' + '/' + '*' + '%'
 
-Token Expressão Aritmética: (0..9)^+ operador (0..9)^+ Check
+Token Expressão Aritmética: (0+..+9)^+('+' + '-' + '/' + '*' + '%')(0+..+9)^+ Check
 
-Token Condicional: if( (a..z + A..Z)^+(0..9)*('>''=' + '>' + '=''=' + '<' + '<''=' + '!''=')(a..z + A..Z)^+(0..9)* ): NotCheck
+Token Condicional: if( (a+..+z + A+..+Z)^+(0+..+9)*('>''=' + '>' + '=''=' + '<' + '<''=' + '!''=')(a+..+z + A+..+Z)^+(0+..+9)* ):
 
-Token Escrita: print( + ((a..z + A..Z)^+(0..9)*) ')' + ("(0..9)* + (a..z)* + (A..Z)*" ')' Check
+Token Escrita: print( + ((a+..+z + A+..+Z)^+(0+..+9)*) ')' + (" (0+..+9 + a+..+z + A+..+Z)* " ')' 
 
 
 
