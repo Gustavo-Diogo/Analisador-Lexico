@@ -293,7 +293,7 @@ public class Scanner {
                                     }
                                     break;
 
-                                case 3:
+                               case 3:
                                     if (isChar(currentChar) || isDigit(currentChar)) {
                                         subEstado = 3;
                                         term += currentChar;
@@ -367,11 +367,10 @@ public class Scanner {
 
                                 case 8:
                                     if (isChar(currentChar) || isDigit(currentChar)) {
-                                        subEstado = 5;
+                                        subEstado = 9;
                                         term += currentChar;
                                         currentChar = nextChar();
-                                    } 
-                                     else if (isEqual(currentChar)) {
+                                    } else if (isEqual(currentChar)) {
                                         subEstado = 5;
                                         term += currentChar;
                                         currentChar = nextChar();
@@ -418,7 +417,13 @@ public class Scanner {
                                     return token;
 
                                 case 9:
-                                    if (isFechaParen(currentChar)) {
+
+                                    if (isChar(currentChar) || isDigit(currentChar)) {
+                                        subEstado = 9;
+                                        term += currentChar;
+                                        currentChar = nextChar();
+                                    }
+                                    else if (isFechaParen(currentChar)) {
                                         subEstado = 6;
                                         term += currentChar;
                                         currentChar = nextChar();
@@ -435,9 +440,6 @@ public class Scanner {
                                             currentChar = nextChar();
                                         } while (isNextLine(currentChar) == false);
                                     }
-                                    break;
-                                default:
-
                                     break;
                             }
                         } while (doWhile == true);
